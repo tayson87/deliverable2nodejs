@@ -17,8 +17,9 @@ const { sequelize } = require('../util/database');
      },
 
      email: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(100),
         allowNull: false,
+        unique: true
     },
 
     password: {
@@ -27,12 +28,13 @@ const { sequelize } = require('../util/database');
     },
 
     role: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(10),
         allowNull: false,
+        defaultValue: 'guest'
     },
 
       status: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(10),
         allowNull: false, 
         defaultValue: 'active',  
      },

@@ -22,17 +22,18 @@ const { sequelize } = require('../util/database');
     },
 
     rating: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1
     },
 
     userId: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
 
     movieId: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
 

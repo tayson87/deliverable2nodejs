@@ -22,13 +22,15 @@ const { sequelize } = require('../util/database');
     },
 
     duration: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0
     },
 
     rating: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1
     },
 
     img: {
@@ -42,7 +44,7 @@ const { sequelize } = require('../util/database');
     },
 
       status: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(10),
         allowNull: false, 
         defaultValue: 'active',  
      },
