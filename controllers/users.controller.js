@@ -6,24 +6,19 @@
  const { filterObj } = require ('../util/filterObject');
  
  
- exports.getUser = async  (req, res) => {
-     try {
+ exports.getUser =  catchAsync ( async  (req, res,next) => {
+     
          const userDb = await User.findAll()
      res.status(200).json({
          status: 'success',
          data: {
            userDb
          },
-     }); 
-     } catch (error) {
-         console.log(error);
-         
-     }
-         
- };
+     });        
+ });
  
- exports.getUserById = async  (req, res) => {
-     try {
+ exports.getUserById =  catchAsync ( async  (req, res,next) => {
+     
          const { id } = req.params;
  
         const user = await  user.findOne({ 
@@ -45,13 +40,10 @@
                  user,
              },
          });
-     } catch (error) {
-         console.log(error);
-     }   
- };
+     });
  
- exports.createUsers =  async ( req, res) => {
-     try {
+ exports.createUsers =   catchAsync ( async  (req, res,next) => {
+     
          const { name } = req.body;
  
          const newUser = await User.create({
@@ -60,15 +52,12 @@
         res.status(201).json({
             status:'success',
             data: { newUser},
-        });           
-     } catch (error) {
-         console.log(error);
-     }
- };
+        });          
+      });
    
  
- exports.updateUsersPach = async  (req, res) => {
-     try {
+ exports.updateUsersPach =  catchAsync ( async  (req, res,next) => {
+    
          const { id } = req.params;
          const data = filterObj(req.body, 'name' );
  
@@ -79,7 +68,7 @@
          if(!city) {
              res.status(404).json({
                  status: 'error',
-                 message: 'cant update city, invalide ID ',
+                 message: 'cant update user, invalide ID ',
              });
              return;
          }        
@@ -90,15 +79,11 @@
  
          res.status(204).json({
              status: 'success'
-         });    
-     } catch (error) {
-         console.log(error);
-     }
-    
- };
+         });       
+ });
  
- exports.deleteUsers = async  (req, res) => {
-     try {
+ exports.deleteUsers =  catchAsync ( async  (req, res,next) => {
+     
          const { id } = req.params;
  
          const user = await user.findOne(
@@ -109,7 +94,7 @@
          if(!user ) {
              res.status(404).json({
                  status: 'error',
-                 message: 'cant  delete city invalid ID',
+                 message: 'cant  delete user  invalid ID',
              });
              return;
          }
@@ -118,9 +103,5 @@
      
          res.status(204).json({
              status: 'success'
-         });
-     } catch (error) {
-         console.log(error);
-     }
-    
- };
+         });    
+     });

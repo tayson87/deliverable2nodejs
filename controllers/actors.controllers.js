@@ -6,33 +6,29 @@
  const { filterObj } = require ('../util/filterObject');
  
  
- exports.getActors = async  (req, res) => {
-     try {
-         const cityDb = await City.findAll()
+ exports.getActors = catchAsync ( async  (req, res,next) => {
+     
+         const actorDb = await Actor.findAll()
      res.status(200).json({
          status: 'success',
          data: {
-           cityDb
+           actorDb
          },
-     }); 
-     } catch (error) {
-         console.log(error);
-         
-     }
-         
- };
+     });
+    });
+
  
- exports.getActorsById = async  (req, res) => {
-     try {
+ exports.getActorsById =catchAsync ( async  (req, res,next) => {
+     
          const { id } = req.params;
  
-        const city = await  city.findOne({ 
+        const actor = await  actor.findOne({ 
               where: {
                  id
              }
          });
  
-         if(!city) {
+         if(!actor) {
              res.status(404).json({
                  status: 'error',
                  message : 'not found with the  given ID '
@@ -42,85 +38,73 @@
          res.status (200).json({
              status: 'success',
              data: {
-                 city,
+                 actor,
              },
-         });
-     } catch (error) {
-         console.log(error);
-     }   
- };
+         });  
+ });
  
- exports.createActors =  async ( req, res) => {
-     try {
+ exports.createActors = catchAsync ( async  (req, res,next) => {
+     
          const { name } = req.body;
  
-         const newCity = await City.create({
+         const newActor = await Actor.create({
              name: name,            
             });   
         res.status(201).json({
             status:'success',
-            data: { newCity},
+            data: { newActor},
         });           
-     } catch (error) {
-         console.log(error);
-     }
- };
+     });
    
  
- exports.updateActorsPach = async  (req, res) => {
-     try {
+ exports.updateActorsPach =catchAsync ( async  (req, res,next) => {
+     
          const { id } = req.params;
          const data = filterObj(req.body, 'name' );
  
-        const city = await city.findOne({
+        const actor = await actor.findOne({
              where: { id }
          });   
             
-         if(!city) {
+         if(!actor) {
              res.status(404).json({
                  status: 'error',
-                 message: 'cant update city, invalide ID ',
+                 message: 'cant update actor, invalide ID ',
              });
              return;
          }        
-         await city.update(
+         await actor.update(
              { 
                  ...data
              });      
  
          res.status(204).json({
              status: 'success'
-         });    
-     } catch (error) {
-         console.log(error);
-     }
-    
- };
+         });       
+ });
  
- exports.deleteActors = async  (req, res) => {
-     try {
+ exports.deleteActors = catchAsync ( async  (req, res,next) => {
+     
          const { id } = req.params;
  
-         const city = await City.findOne(
+         const actor = await actor.findOne(
              {
                   where: {id}
                  });
  
-         if(!city ) {
+         if(!actor ) {
              res.status(404).json({
                  status: 'error',
-                 message: 'cant  delete city invalid ID',
+                 message: 'cant  delete actor invalid ID',
              });
              return;
          }
  
-         await city.destroy();      
+         await actor.destroy();      
      
          res.status(204).json({
              status: 'success'
          });
-     } catch (error) {
-         console.log(error);
-     }
-    
- };
+     });
+
+    //  cambios  en  propiedades  y en  el delete  con la funcion  soft 
