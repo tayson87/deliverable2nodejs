@@ -21,11 +21,6 @@ const { sequelize } = require('../util/database');
         allowNull: false,
     },
 
-         status: {
-        type: DataTypes.STRING(255),
-        allowNull: false, 
-        defaultValue: 'active',  
-     },
  });
 
 
