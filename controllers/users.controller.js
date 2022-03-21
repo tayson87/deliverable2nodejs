@@ -1,4 +1,6 @@
- //models
+const bcrypt = require('bcryptjs');
+
+//models
  const { User } = require('../models/users.models');
 
 
@@ -44,11 +46,19 @@
  
  exports.createUsers =   catchAsync ( async  (req, res,next) => {
      
-         const { name } = req.body;
+         const { userName, email, password,  } = req.body;
+         
+         const  salt = await bcrypt.genSalt(12);
+         const hashedPassword =  await bcrypt.hash(password, salt);
  
          const newUser = await User.create({
-             name: name,            
+            userName: userName,
+            email: email,
+            password: hashedPassword,            
             });   
+
+           newUser.password = undefined;
+
         res.status(201).json({
             status:'success',
             data: { newUser},
@@ -59,13 +69,13 @@
  exports.updateUsersPach =  catchAsync ( async  (req, res,next) => {
     
          const { id } = req.params;
-         const data = filterObj(req.body, 'name' );
+         const data = filterObj(req.body, 'userName', 'email' );
  
         const user = await user.findOne({
              where: { id }
          });   
             
-         if(!city) {
+         if(!user) {
              res.status(404).json({
                  status: 'error',
                  message: 'cant update user, invalide ID ',
@@ -99,7 +109,7 @@
              return;
          }
  
-         await user.destroy();      
+         user.splice(userIndex, 1);     
      
          res.status(204).json({
              status: 'success'

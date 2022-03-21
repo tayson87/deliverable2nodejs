@@ -44,10 +44,13 @@
  
  exports.createMovies =  catchAsync ( async  (req, res,next) => {
     
-         const { name } = req.body;
+         const { title, description, duration, genre } = req.body;
  
          const newMovie = await Movie.create({
-             name: name,            
+             title: title,
+             description: description,
+             duration: duration,
+             genre: genre            
             });   
         res.status(201).json({
             status:'success',
@@ -59,7 +62,7 @@
  exports.updateMoviesPach = catchAsync ( async  (req, res,next) => {
      
          const { id } = req.params;
-         const data = filterObj(req.body, 'name' );
+         const data = filterObj(req.body, 'title', 'description', 'duration', 'genre' );
  
         const movie = await movie.findOne({
              where: { id }
@@ -99,7 +102,7 @@
              return;
          }
  
-         await movie.destroy();      
+         actor.splice(userIndex, 1);      
      
          res.status(204).json({
              status: 'success'

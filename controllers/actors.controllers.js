@@ -45,10 +45,12 @@
  
  exports.createActors = catchAsync ( async  (req, res,next) => {
      
-         const { name } = req.body;
+         const { name, country, age  } = req.body;
  
          const newActor = await Actor.create({
-             name: name,            
+             name: name, 
+             country: country,
+             age: age           
             });   
         res.status(201).json({
             status:'success',
@@ -60,7 +62,7 @@
  exports.updateActorsPach =catchAsync ( async  (req, res,next) => {
      
          const { id } = req.params;
-         const data = filterObj(req.body, 'name' );
+         const data = filterObj(req.body, 'name', 'country', 'age' );
  
         const actor = await actor.findOne({
              where: { id }
@@ -100,7 +102,7 @@
              return;
          }
  
-         await actor.destroy();      
+         actor.splice(userIndex, 1);     
      
          res.status(204).json({
              status: 'success'
