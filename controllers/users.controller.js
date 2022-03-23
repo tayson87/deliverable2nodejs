@@ -64,6 +64,29 @@ const bcrypt = require('bcryptjs');
             data: { newUser},
         });          
       });
+
+      exports.loginUser =  catchAsync ( async  (req, res,next) => {
+        const  { email, password} = req.body;
+
+        const user = await User.findOne({
+            where: { email, status: 'active' }
+        });
+
+        if(!user){
+            return next(new AppError(404, 'Email invalid '));
+        }
+
+        const isPasswordValid=  await bcrypt.compare(password, user.password );
+
+        if(!isPasswordValid){
+            return next( new AppError(400, 'Password  is not valid'));
+        }
+
+        res.status(200).json({
+            status: 'success'
+        });
+
+      });
    
  
  exports.updateUsersPach =  catchAsync ( async  (req, res,next) => {

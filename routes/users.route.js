@@ -16,6 +16,7 @@ router.get('/:id', getUsersById);
 
 router.post('/', createUsers);
 
+router.post('/login');
 
 router.patch('/:id' , updateUsersPach);
 
