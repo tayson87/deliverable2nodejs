@@ -6,7 +6,8 @@ const  { getUsers,
      getUsersById, 
      createUsers,
      updateUsersPach,
-     deleteUsers} = require('../controllers/users.controller');
+     deleteUsers,
+     loginUser } = require('../controllers/users.controller');
 
 
 router.get('/', getUsers);
@@ -16,7 +17,7 @@ router.get('/:id', getUsersById);
 
 router.post('/', createUsers);
 
-router.post('/login');
+router.post('/login', loginUser);
 
 router.patch('/:id' , updateUsersPach);
 

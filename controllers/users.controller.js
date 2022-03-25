@@ -1,16 +1,26 @@
 const bcrypt = require('bcryptjs');
+const { Actor } = require('../models/actor.model');
+const { Movie } = require('../models/movies.model');
 
 //models
  const { User } = require('../models/users.models');
 
 
  //util
- const { filterObj } = require ('../util/filterObject');
+ const { filterObj } = require ('../util/filterobj');
  
  
  exports.getUser =  catchAsync ( async  (req, res,next) => {
+
+    const userDb = await User.findAll({    
+        where: { status: 'active' },
+        include: [
+        { model: Movie, include: [{ model: Actor}]},
+        { model: Actor, include: [{ model: Movie}]}
+        ]
+    });
      
-         const userDb = await User.findAll()
+         
      res.status(200).json({
          status: 'success',
          data: {
@@ -64,7 +74,7 @@ const bcrypt = require('bcryptjs');
             data: { newUser},
         });          
       });
-
+ 
       exports.loginUser =  catchAsync ( async  (req, res,next) => {
         const  { email, password} = req.body;
 
@@ -72,16 +82,10 @@ const bcrypt = require('bcryptjs');
             where: { email, status: 'active' }
         });
 
-        if(!user){
-            return next(new AppError(404, 'Email invalid '));
+        if(!user || !(await bcrypt.compare(password, user.password)))
+        {
+            return next(new AppError(404, 'credentials or invalid '));
         }
-
-        const isPasswordValid=  await bcrypt.compare(password, user.password );
-
-        if(!isPasswordValid){
-            return next( new AppError(400, 'Password  is not valid'));
-        }
-
         res.status(200).json({
             status: 'success'
         });

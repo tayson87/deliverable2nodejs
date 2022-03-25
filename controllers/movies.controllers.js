@@ -7,8 +7,12 @@
  
  
  exports.getMovies =  catchAsync ( async  (req, res,next) => {
-     
-         const movieDb = await movie.findAll()
+
+    const movieDb = await movie.findAll({    
+        where: { status: 'active' },
+        include: [{ model: User}]
+    });    
+         
      res.status(200).json({
          status: 'success',
          data: {
@@ -44,13 +48,15 @@
  
  exports.createMovies =  catchAsync ( async  (req, res,next) => {
     
-         const { title, description, duration, genre } = req.body;
- 
+         const { title, description, duration, genre, rating, img, actors } = req.body;     
+
          const newMovie = await Movie.create({
              title: title,
              description: description,
              duration: duration,
-             genre: genre            
+             genre: genre,
+             rating: rating,
+             img: img            
             });   
         res.status(201).json({
             status:'success',

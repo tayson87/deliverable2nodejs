@@ -1,5 +1,7 @@
  //models
- const { Actor } = require('../models/actor.model');
+ const { where } = require('sequelize/types');
+const { Actor } = require('../models/actor.model');
+const { User } = require('../models/users.models');
 
 
  //util
@@ -7,8 +9,12 @@
  
  
  exports.getActors = catchAsync ( async  (req, res,next) => {
-     
-         const actorDb = await Actor.findAll()
+   
+    const actorDb = await Actor.findAll({    
+    where: { status: 'active' },
+    include: [{ model: User}]
+});    
+         
      res.status(200).json({
          status: 'success',
          data: {
